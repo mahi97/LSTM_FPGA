@@ -116,4 +116,6 @@ mul_tanhc_ot : mul_mat_1_8 port map (O_t, tanh_ct, h_new);
 
 add_m : add_mat_1_8 port map (mul_c_ft, mul_It_Ct, c_new);
 
+
+
 end architecture ; -- arch
