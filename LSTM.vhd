@@ -39,6 +39,14 @@ architecture arch of LSTM is
         );
 	end component;
 
+	component mul_mat_1_8 is
+    Port (
+           inputx : in matrix_1_8;
+           inputy : in matrix_1_8;
+           output : out matrix_1_8
+    );
+	end component;
+
 	component matrix_multipler is
     Generic (
       input_a_rows : integer := 3;
@@ -55,15 +63,6 @@ architecture arch of LSTM is
            input_b : in std_logic_vector(31 downto 0);
            ready : in std_logic;
            output : out std_logic_vector(31 downto 0));
-	end component;
-
-
-
-	component multiplier_module is
-    Port (
-       inputx : in std_logic_vector(31 downto 0);
-       inputy : in std_logic_vector(31 downto 0);
-       output : out std_logic_vector(31 downto 0));
 	end component;
 
 	component add_module is
@@ -98,6 +97,8 @@ signal tanh_ct : matrix_1_8;
 signal candidate_value : matrix_1_8;
 signal final_c : matrix_1_8;
 signal forget : matrix_1_8;
+signal mul_c_ft : matrix_1_8;
+signal mul_It_Ct : matrix_1_8;
 
 begin
 
@@ -107,6 +108,11 @@ tanh_c_2_c : tanh_matrix_1_8 port map (clk, '1', candidate_value, C_t);
 sigmoid_forget_ft : sigmoid_matrix_1_8 port map (clk, '1', forget, F_t);
 sigmoid_input_it  : sigmoid_matrix_1_8 port map (clk, '1', forget, I_t);
 sigmoid_output_ot : sigmoid_matrix_1_8 port map (clk, '1', forget, O_t);
+
+mul_c_old_ft : mul_mat_1_8 port map (c_old, F_t, mul_c_ft);
+mul_it_ct    : mul_mat_1_8 port map (I_t, C_t, mul_It_Ct);
+mul_tanhc_ot : mul_mat_1_8 port map (O_t, tanh_ct, h_new);
+
 
 
 
