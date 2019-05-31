@@ -47,6 +47,14 @@ architecture arch of LSTM is
     );
 	end component;
 
+	component add_mat_1_8 is
+    Port (
+           inputx : in matrix_1_8;
+           inputy : in matrix_1_8;
+           output : out matrix_1_8
+    );
+	end component;
+
 	component matrix_multipler is
     Generic (
       input_a_rows : integer := 3;
@@ -63,13 +71,6 @@ architecture arch of LSTM is
            input_b : in std_logic_vector(31 downto 0);
            ready : in std_logic;
            output : out std_logic_vector(31 downto 0));
-	end component;
-
-	component add_module is
-	    Port (
-	       inputx : in std_logic_vector(31 downto 0);
-	       inputy : in std_logic_vector(31 downto 0);
-	       output : out std_logic_vector(31 downto 0));
 	end component;
 
 
@@ -113,7 +114,6 @@ mul_c_old_ft : mul_mat_1_8 port map (c_old, F_t, mul_c_ft);
 mul_it_ct    : mul_mat_1_8 port map (I_t, C_t, mul_It_Ct);
 mul_tanhc_ot : mul_mat_1_8 port map (O_t, tanh_ct, h_new);
 
-
-
+add_m : add_mat_1_8 port map (mul_c_ft, mul_It_Ct, c_new);
 
 end architecture ; -- arch
