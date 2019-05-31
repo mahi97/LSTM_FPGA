@@ -92,7 +92,7 @@ begin
         sum := 0.0;
         l2: for j in 0 to input_b_rows-1 loop
               l3: for k in 0 to input_a_cols-1 loop
-                  sum := sum + slv_to_single_float(firstmem(i,k)) * slv_to_single_float(firstmem(k,j));
+                  sum := sum + slv_to_single_float(firstmem(i,k)) * slv_to_single_float(secondmem(k,j));
               end loop;
                resultmem(i,j) <= single_float_to_slv(sum);
             end loop;
